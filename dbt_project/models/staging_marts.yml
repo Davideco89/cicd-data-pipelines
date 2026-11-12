@@ -1,0 +1,54 @@
+version: 2
+
+models:
+  - name: stg_customers
+    description: Customer staging view, one row per customer.
+    columns:
+      - name: customer_id
+        data_tests:
+          - not_null
+          - unique
+      - name: customer_name
+        data_tests:
+          - not_null
+
+  - name: stg_orders
+    description: Order staging view, including completed and cancelled orders.
+    columns:
+      - name: order_id
+        data_tests:
+          - not_null
+          - unique
+      - name: customer_id
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_customers')
+                field: customer_id
+      - name: order_date
+        data_tests:
+          - not_null
+      - name: status
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['completed', 'cancelled']
+      - name: amount_cents
+        data_tests:
+          - not_null
+
+  - name: fct_daily_revenue
+    description: Daily completed-order revenue in EUR cents; zero-value orders included.
+    columns:
+      - name: order_date
+        data_tests:
+          - not_null
+          - unique
+      - name: completed_order_count
+        data_tests:
+          - not_null
+      - name: revenue_cents
+        data_tests:
+          - not_null

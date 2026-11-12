@@ -26,3 +26,6 @@ crash.log
 
 # Logs
 *.log
+
+# dbt local user settings
+dbt_project/.user.yml

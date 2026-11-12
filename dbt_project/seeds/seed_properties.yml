@@ -1,0 +1,45 @@
+version: 2
+
+seeds:
+  - name: raw_customers
+    description: Synthetic customers used by the CI/CD learning project.
+    columns:
+      - name: customer_id
+        data_tests:
+          - not_null
+          - unique
+
+      - name: customer_name
+        data_tests:
+          - not_null
+
+  - name: raw_orders
+    description: Synthetic orders with amounts expressed in EUR cents.
+    columns:
+      - name: order_id
+        data_tests:
+          - not_null
+          - unique
+
+      - name: customer_id
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('raw_customers')
+                field: customer_id
+
+      - name: order_date
+        data_tests:
+          - not_null
+
+      - name: status
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ["completed", "cancelled"]
+
+      - name: amount_cents
+        data_tests:
+          - not_null

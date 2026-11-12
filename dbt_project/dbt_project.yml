@@ -1,0 +1,29 @@
+name: cicd_data_pipelines
+version: "1.0.0"
+config-version: 2
+
+profile: cicd_data_pipelines
+require-dbt-version: "1.12.6"
+
+model-paths: ["models"]
+seed-paths: ["seeds"]
+test-paths: ["tests"]
+macro-paths: ["macros"]
+
+clean-targets:
+  - target
+  - dbt_packages
+
+seeds:
+  cicd_data_pipelines:
+    raw_customers:
+      +column_types:
+        customer_id: STRING
+        customer_name: STRING
+    raw_orders:
+      +column_types:
+        order_id: STRING
+        customer_id: STRING
+        order_date: DATE
+        status: STRING
+        amount_cents: INT64
