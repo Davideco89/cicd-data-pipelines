@@ -1,1 +1,2 @@
 pre-commit==4.7.0
+sqlfluff==4.5.0

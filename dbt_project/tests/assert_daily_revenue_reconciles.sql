@@ -17,11 +17,11 @@ actual AS (
 )
 
 SELECT
-    COALESCE(expected.order_date, actual.order_date) AS order_date,
     expected.completed_order_count AS expected_order_count,
     actual.completed_order_count AS actual_order_count,
     expected.revenue_cents AS expected_revenue_cents,
-    actual.revenue_cents AS actual_revenue_cents
+    actual.revenue_cents AS actual_revenue_cents,
+    COALESCE(expected.order_date, actual.order_date) AS order_date
 FROM expected
 FULL OUTER JOIN actual
     ON expected.order_date = actual.order_date
@@ -29,5 +29,5 @@ WHERE
     expected.order_date IS NULL
     OR actual.order_date IS NULL
     OR expected.completed_order_count
-        IS DISTINCT FROM actual.completed_order_count
+    IS DISTINCT FROM actual.completed_order_count
     OR expected.revenue_cents IS DISTINCT FROM actual.revenue_cents
